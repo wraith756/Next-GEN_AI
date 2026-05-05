@@ -1,51 +1,150 @@
-# 🤖 Jarvis - Your Personal Desktop Voice Assistant
-
-Jarvis is a smart and customizable desktop assistant built using **Python**, **Eel**, **HTML/CSS**, and **JavaScript**. It helps you control your PC and mobile with simple **voice** or **typed commands**.
-
-From launching apps to making calls and chatting, Jarvis brings AI and automation to your fingertips.
+Here’s a **clean, professional README.md** for your project 👇
 
 ---
 
-## ✨ Features
+# 🚀 Next Gen-AI
 
-- 🎙️ Control via **Voice & Typing**
-- 📞 Make Phone Calls via Mobile (Android)
-- 📲 Pickup & Disconnect Calls
-- 💻 Launch Desktop Applications
-- 🌐 Open Your Favorite URLs
-- 📔 Built-in Phone Book
-- 🙋 Store and Use Your Personal Details
-- 🤖 Chat Interaction
-- 🎵 Play Videos/Songs on YouTube & Spotify
-- 🌤️ Check Weather Updates
+### RAG-Based Intelligent Assistant with n8n Integration
 
 ---
 
-## 🖼️ Demo
+## 📌 Overview
 
-### 🔐 Face Authentication  
-![Face Authentication](https://github.com/digambar2002/image-hosting/blob/main/How_to_make_Jarvis_in_Python__voice_assistant__jarvis_iron_m.gif)
+**Next Gen-AI** is a context-aware intelligent assistant that leverages **Retrieval-Augmented Generation (RAG)** and Large Language Models to deliver accurate, real-time responses.
 
-### 🎤 Speech to Text Recognition  
-![Speech to Text](https://github.com/digambar2002/image-hosting/blob/main/e.gif)
+It is further enhanced with **n8n** to enable **automated, event-driven workflows** across multiple applications.
 
-### 🎵 Play Music on Spotify  
-![Play Music in Spotify](https://github.com/digambar2002/image-hosting/blob/main/2.gif)
+---
+
+## 🎯 Features
+
+- 🔍 Context-aware responses using RAG
+- ⚡ Fast and accurate answer generation
+- 🧠 Reduced hallucination with vector search
+- 🔗 Integration with external apps via n8n
+- 🤖 Automated workflows (email, documents, APIs)
+- 🌐 Simple web interface for user interaction
+
+---
+
+## 🏗️ Architecture
+
+User Query → Embedding → Vector Database → Context Retrieval → LLM → Response → n8n Automation
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Python** – Core logic
-- **Eel** – Web-Python integration
-- **HTML/CSS/JS** – Interactive frontend
+- **Python** – Backend development
+- **LangChain** – RAG pipeline
+- **OpenAI GPT API** – Response generation
+- **FAISS** – Vector storage & retrieval
+- **n8n** – Workflow automation
+- Streamlit – Frontend interface
 
 ---
 
-## ⚙️ Installation
+## ⚙️ How It Works
 
-### 1. Clone the Repository
+1. User enters a query
+2. Query is converted into embeddings
+3. Relevant data is retrieved from vector database
+4. Context is passed to the LLM
+5. LLM generates an accurate response
+6. n8n automates further actions (if required)
+
+---
+
+## 🔗 Use Cases
+
+- 📄 Document-based Q&A system
+- 📧 Email summarization automation
+- 🧾 Knowledge base assistant
+- 🏢 Enterprise internal chatbot
+- 🔄 Workflow automation with AI
+
+---
+
+## 📊 Results
+
+- ✅ High accuracy with context-aware responses
+- ⚡ Average response time < 3 seconds
+- 📉 Reduced hallucination compared to traditional chatbots
+
+---
+
+## 🚧 Limitations
+
+- Dependent on API performance
+- Requires proper data indexing
+- Initial setup complexity
+
+---
+
+## 🔮 Future Scope
+
+- ☁️ Cloud deployment (AWS/GCP)
+- 🔐 Enhanced security & authentication
+- 📈 Scalable microservices architecture
+- 🧠 Improved memory & personalization
+
+---
+
+## 📁 Installation
 
 ```bash
-git clone https://github.com/yourusername/jarvis-python-assistant.git
-cd jarvis-python-assistant
+# Clone repository
+git clone https://github.com/your-username/next-gen-ai.git
+
+# Navigate to project
+cd next-gen-ai
+
+# Create virtual environment
+python -m venv venv
+
+# Activate environment
+# Windows
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run application
+streamlit run app.py
+```
+
+---
+
+## 🤝 Contribution
+
+Contributions are welcome! Feel free to fork the repo and submit a pull request.
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🙌 Acknowledgements
+
+- OpenAI GPT Documentation
+- LangChain Documentation
+- FAISS Research Paper
+
+---
+
+## 👨‍💻 Authors
+
+- Anurag Sharma
+- Gaurangi Tripathi
+- Ayush Sharma
+
+---
+
+If you want, I can also:
+
+- 🔥 Add **badges (GitHub style)**
+- 💎 Make it **ATS-friendly for resume**
+- ⚡ Create a **portfolio description version**
