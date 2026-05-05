@@ -1,0 +1,40 @@
+# 🔐 Environment variables
+.env
+.env.*
+
+# 🧠 Project specific
+envjarvis/
+contacts.csv
+jarvis.db
+
+# ⚙️ Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 📁 Engine specific
+engine/__pycache__/
+engine/cookies.json
+engine/credentials.json
+egine/config.py
+
+# 🧪 Virtual environment
+venv/
+env/
+ENV/
+
+# 🧾 Logs
+*.log
+
+# 🖥️ OS files
+.DS_Store
+Thumbs.db
+
+# 🧑‍💻 VS Code
+.vscode/
+
+# 📦 Node (if frontend inside same repo)
+node_modules/
+dist/
+build/
