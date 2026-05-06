@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash \"/c/Users/HP/.claude/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Anchal/Fiverr/Next-GEN_AI\")"
+    ]
+  }
+}

@@ -1,0 +1,129 @@
+<h2>Key System Flows</h2>
+<p class="subtitle">Startup authentication and real-time voice command pipeline</p>
+
+<!-- FLOW 1: STARTUP -->
+<div class="mockup" style="margin-bottom:20px;">
+  <div class="mockup-header">Flow 1 — Startup & Face Authentication</div>
+  <div class="mockup-body" style="padding:16px;">
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:11px;font-family:monospace;">
+
+      <div style="text-align:center;">
+        <div style="background:#00AAFF22;border:1px solid #00AAFF55;border-radius:6px;padding:8px 10px;color:#00AAFF;min-width:80px;">run.py</div>
+        <div style="color:#555;font-size:9px;margin-top:3px;">entry point</div>
+      </div>
+      <div style="color:#00AAFF;font-size:16px;">→</div>
+
+      <div style="text-align:center;">
+        <div style="background:#00AAFF22;border:1px solid #00AAFF55;border-radius:6px;padding:8px 10px;color:#00AAFF;min-width:80px;">FastAPI<br/>:8000</div>
+        <div style="color:#555;font-size:9px;margin-top:3px;">uvicorn starts</div>
+      </div>
+      <div style="color:#00AAFF;font-size:16px;">→</div>
+
+      <div style="text-align:center;">
+        <div style="background:#00AAFF22;border:1px solid #00AAFF55;border-radius:6px;padding:8px 10px;color:#00AAFF;min-width:80px;">Next.js<br/>:3000</div>
+        <div style="color:#555;font-size:9px;margin-top:3px;">browser opens</div>
+      </div>
+      <div style="color:#00AAFF;font-size:16px;">→</div>
+
+      <div style="text-align:center;">
+        <div style="background:#002244;border:1px solid #0066AA;border-radius:6px;padding:8px 10px;color:#88CCFF;min-width:100px;">SVG Loader<br/>animation</div>
+        <div style="color:#555;font-size:9px;margin-top:3px;">current loading screen</div>
+      </div>
+      <div style="color:#00AAFF;font-size:16px;">→</div>
+
+      <div style="text-align:center;">
+        <div style="background:#002244;border:1px solid #0066AA;border-radius:6px;padding:8px 10px;color:#88CCFF;min-width:100px;">Face Auth<br/>Lottie overlay</div>
+        <div style="color:#555;font-size:9px;margin-top:3px;">POST /auth/face</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;margin-left:6px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="color:#00AA66;font-size:14px;">✓</div>
+          <div style="background:#001a0a;border:1px solid #00AA6644;border-radius:6px;padding:6px 10px;color:#00AA66;font-size:10px;">Success → JARVIS HUD<br/>OpenWakeWord starts</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="color:#AA3333;font-size:14px;">✗</div>
+          <div style="background:#1a0000;border:1px solid #AA333344;border-radius:6px;padding:6px 10px;color:#FF8888;font-size:10px;">Fail → retry overlay<br/>TTS: "Auth failed"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOW 2: VOICE COMMAND -->
+<div class="mockup">
+  <div class="mockup-header">Flow 2 — Voice Command Pipeline (after auth)</div>
+  <div class="mockup-body" style="padding:16px;">
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;font-family:monospace;font-size:10px;">
+
+      <!-- Step 1 -->
+      <div style="border:1px solid #00AAFF33;border-radius:8px;padding:10px;background:#0a0a1a;">
+        <div style="color:#00AAFF;font-weight:bold;margin-bottom:6px;font-size:11px;">① DETECT</div>
+        <div style="color:#ccc;line-height:1.7;">
+          OpenWakeWord<br/>listening on mic<br/>
+          <span style="color:#888;">—</span><br/>
+          Hears <span style="color:#00AAFF;">"Next Gen"</span><br/>
+          → WS: <code style="color:#88CCFF;">{"type":"wake"}</code>
+        </div>
+        <div style="margin-top:8px;background:#00AAFF11;border-radius:4px;padding:4px;color:#00AAFF;font-size:9px;">UI: pulse animation</div>
+      </div>
+
+      <!-- Step 2 -->
+      <div style="border:1px solid #00AAFF33;border-radius:8px;padding:10px;background:#0a0a1a;">
+        <div style="color:#00AAFF;font-weight:bold;margin-bottom:6px;font-size:11px;">② LISTEN</div>
+        <div style="color:#ccc;line-height:1.7;">
+          Mic captures<br/>audio (8s window)<br/>
+          <span style="color:#888;">—</span><br/>
+          Send WAV bytes<br/>→ Groq Whisper<br/>→ transcript
+        </div>
+        <div style="margin-top:8px;background:#00AAFF11;border-radius:4px;padding:4px;color:#00AAFF;font-size:9px;">UI: SiriWave active</div>
+      </div>
+
+      <!-- Step 3 -->
+      <div style="border:1px solid #00AAFF33;border-radius:8px;padding:10px;background:#0a0a1a;">
+        <div style="color:#00AAFF;font-weight:bold;margin-bottom:6px;font-size:11px;">③ ROUTE</div>
+        <div style="color:#ccc;line-height:1.7;">
+          Intent classifier<br/>checks keywords<br/>
+          <span style="color:#888;">—</span><br/>
+          <span style="color:#88CCFF;">open / close / search<br/>youtube → action</span><br/>
+          <span style="color:#FFCC88;">else → Groq LLM</span>
+        </div>
+        <div style="margin-top:8px;background:#FFCC8811;border-radius:4px;padding:4px;color:#FFCC88;font-size:9px;">8b-instant or 70b-versatile</div>
+      </div>
+
+      <!-- Step 4 -->
+      <div style="border:1px solid #00AAFF33;border-radius:8px;padding:10px;background:#0a0a1a;">
+        <div style="color:#00AA66;font-weight:bold;margin-bottom:6px;font-size:11px;">④ RESPOND</div>
+        <div style="color:#ccc;line-height:1.7;">
+          pyttsx3 speaks<br/>response text<br/>
+          <span style="color:#888;">—</span><br/>
+          WS → frontend<br/>displays message<br/>saves to DB
+        </div>
+        <div style="margin-top:8px;background:#00AA6611;border-radius:4px;padding:4px;color:#00AA66;font-size:9px;">UI: message in chat tab</div>
+      </div>
+    </div>
+
+    <!-- Intent routing detail -->
+    <div style="margin-top:12px;border:1px solid #FFCC8833;border-radius:6px;padding:10px;background:#1a1400;">
+      <div style="color:#FFCC88;font-size:11px;font-weight:bold;margin-bottom:6px;">Command Router Logic</div>
+      <div style="display:flex;gap:16px;font-size:10px;font-family:monospace;">
+        <div style="color:#888;">
+          "open ___" → openCommand()<br/>
+          "close ___" → closeCommand()<br/>
+          "search ___" → webSearch()
+        </div>
+        <div style="color:#888;">
+          "play ___ on youtube" → PlayYoutube()<br/>
+          "send message to ___" → whatsApp()<br/>
+          "ai status" → assistantStatus()
+        </div>
+        <div style="color:#FFCC88;">
+          anything else<br/>→ <span style="color:#fff;">classify complexity</span><br/>
+          short query → llama-3.1-8b-instant<br/>
+          long/complex → llama-3.3-70b-versatile
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
