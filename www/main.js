@@ -2,6 +2,17 @@ $(document).ready(function () {
 
     eel.init()()
 
+    function callEel(functionName, ...args) {
+        if (!window.eel || typeof eel[functionName] !== "function") {
+            console.warn(`Eel function ${functionName} is not available`);
+            return;
+        }
+
+        return eel[functionName](...args)();
+    }
+
+    window.callEel = callEel;
+
     $('.text').textillate({
         loop: true,
         sync: true,
@@ -42,37 +53,68 @@ $(document).ready(function () {
 
     // mic button click event
 
+    let isProcessing = false;
+
+    function setProcessing(processing) {
+        isProcessing = processing;
+        $("#MicBtn").prop("disabled", processing);
+        $("#SendBtn").prop("disabled", processing);
+    }
+
     $("#MicBtn").click(function () {
+        if (isProcessing) {
+            return;
+        }
+
+        setProcessing(true);
         eel.playAssistantSound()
         $("#Oval").attr("hidden", true);
         $("#SiriWave").attr("hidden", false);
-        eel.allCommands()()
+        eel.allCommands()(function () {
+            setProcessing(false);
+        })
     });
 
 
-    function doc_keyUp(e) {
-        // this would test for whichever key is 40 (down arrow) and the ctrl key at the same time
+    function doc_keyDown(e) {
 
-        if (e.key === 'j' && e.metaKey) {
+        if (e.key === 'F9') {
+            e.preventDefault();
+            if (isProcessing) {
+                return;
+            }
+
+            setProcessing(true);
             eel.playAssistantSound()
             $("#Oval").attr("hidden", true);
             $("#SiriWave").attr("hidden", false);
-            eel.allCommands()()
+            eel.allCommands()(function () {
+                setProcessing(false);
+            })
         }
     }
-    document.addEventListener('keyup', doc_keyUp, false);
+    document.addEventListener('keydown', doc_keyDown, false);
 
     // to play assisatnt 
     function PlayAssistant(message) {
 
+        message = message.trim();
+
         if (message != "") {
 
+            if (isProcessing) {
+                return;
+            }
+
+            setProcessing(true);
             $("#Oval").attr("hidden", true);
             $("#SiriWave").attr("hidden", false);
-            eel.allCommands(message);
-            $("#chatbox").val("")
-            $("#MicBtn").attr('hidden', false);
-            $("#SendBtn").attr('hidden', true);
+            eel.allCommands(message)(function () {
+                $("#chatbox").val("")
+                $("#MicBtn").attr('hidden', false);
+                $("#SendBtn").attr('hidden', true);
+                setProcessing(false);
+            });
 
         }
 
@@ -109,8 +151,9 @@ $(document).ready(function () {
 
     // enter press event handler on chat box
     $("#chatbox").keypress(function (e) {
-        key = e.which;
+        let key = e.which;
         if (key == 13) {
+            e.preventDefault();
             let message = $("#chatbox").val()
             PlayAssistant(message)
         }
@@ -119,10 +162,10 @@ $(document).ready(function () {
 
     // Settings Code
 
-    eel.personalInfo()();
-    eel.displaySysCommand()();
-    eel.displayWebCommand()();
-    eel.displayPhoneBookCommand()();
+    callEel("personalInfo");
+    callEel("displaySysCommand");
+    callEel("displayWebCommand");
+    callEel("displayPhoneBookCommand");
 
 
 
@@ -218,7 +261,7 @@ $(document).ready(function () {
                 title: "Updated Successfully",
                 icon: "success",
             });
-            eel.displaySysCommand()();
+            callEel("displaySysCommand");
             $("#SysCommandKey").val("");
             $("#SysCommandValue").val("");
 
@@ -283,7 +326,7 @@ $(document).ready(function () {
                 title: "Updated Successfully",
                 icon: "success",
             });
-            eel.displayWebCommand()();
+            callEel("displayWebCommand");
             $("#WebCommandKey").val("");
             $("#WebCommandValue").val("");
 
@@ -362,7 +405,7 @@ $(document).ready(function () {
             $("#InputContactMobileNo").val("");
             $("#InputContactEmail").val("");
             $("#InputContactCity").val("");
-            eel.displayPhoneBookCommand()()
+            callEel("displayPhoneBookCommand")
 
         }
         else {
@@ -385,8 +428,8 @@ function SysDeleteID(clicked_id) {
 
 
     // console.log(clicked_id);
-    eel.deleteSysCommand(clicked_id)
-    eel.displaySysCommand()();
+    window.callEel("deleteSysCommand", clicked_id)
+    window.callEel("displaySysCommand");
 
 }
 
@@ -394,15 +437,15 @@ function WebDeleteID(clicked_id) {
 
 
     // console.log(clicked_id);
-    eel.deleteWebCommand(clicked_id)
-    eel.displayWebCommand()();
+    window.callEel("deleteWebCommand", clicked_id)
+    window.callEel("displayWebCommand");
 
 
 }
 function ContactDeleteID(clicked_id) {
 
     // console.log(clicked_id);
-    eel.deletePhoneBookCommand(clicked_id)
-    eel.displayPhoneBookCommand()();
+    window.callEel("deletePhoneBookCommand", clicked_id)
+    window.callEel("displayPhoneBookCommand");
 
 }
