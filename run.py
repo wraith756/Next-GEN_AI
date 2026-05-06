@@ -1,33 +1,51 @@
- 
-
-import multiprocessing
+import os
+import sys
+import time
+import signal
 import subprocess
+import webbrowser
 
-# To run Jarvis
-def startJarvis():
-        # Code for process 1
-        print("Process 1 is running.")
-        from main import start
-        start()
+BACKEND_CMD = [sys.executable, "-m", "uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "frontend")
+FRONTEND_URL = "http://localhost:3000"
 
-# To run hotword
-def listenHotword():
-        # Code for process 2
-        print("Process 2 is running.")
-        from engine.features import hotword
-        hotword()
+procs: list[subprocess.Popen] = []
 
 
-    # Start both processes
-if __name__ == '__main__':
-        p1 = multiprocessing.Process(target=startJarvis)
-        p2 = multiprocessing.Process(target=listenHotword)
-        p1.start()
-        p2.start()
-        p1.join()
+def shutdown(sig=None, frame=None):
+    print("\nShutting down...")
+    for p in procs:
+        try:
+            p.terminate()
+        except Exception:
+            pass
+    sys.exit(0)
 
-        if p2.is_alive():
-            p2.terminate()
-            p2.join()
 
-        print("system stop")
+signal.signal(signal.SIGINT, shutdown)
+signal.signal(signal.SIGTERM, shutdown)
+
+if __name__ == "__main__":
+    print("Starting FastAPI backend on port 8000...")
+    backend = subprocess.Popen(BACKEND_CMD)
+    procs.append(backend)
+
+    print("Starting Next.js frontend on port 3000...")
+    npm = "npm.cmd" if sys.platform == "win32" else "npm"
+    frontend = subprocess.Popen(
+        [npm, "run", "start"],
+        cwd=FRONTEND_DIR,
+    )
+    procs.append(frontend)
+
+    print("Waiting for servers to start...")
+    time.sleep(5)
+
+    print(f"Opening {FRONTEND_URL}")
+    webbrowser.open(FRONTEND_URL)
+
+    print("Next Gen AI running. Press Ctrl+C to stop.")
+    try:
+        backend.wait()
+    except KeyboardInterrupt:
+        shutdown()

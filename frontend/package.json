@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lottiefiles/lottie-player": "^2.0.12",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "lottie-react": "^2.4.1",
