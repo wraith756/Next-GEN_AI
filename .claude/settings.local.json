@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bash \"/c/Users/HP/.claude/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Anchal/Fiverr/Next-GEN_AI\")"
+      "Bash(bash \"/c/Users/HP/.claude/skills/brainstorming/scripts/start-server.sh\" --project-dir \"C:/Anchal/Fiverr/Next-GEN_AI\")",
+      "Bash(python -m pip install fastapi \"uvicorn[standard]\" groq sqlalchemy pydantic-settings python-multipart websockets markdown2 beautifulsoup4)",
+      "Bash(python -m pytest tests/test_automation.py -v)"
     ]
   }
 }
