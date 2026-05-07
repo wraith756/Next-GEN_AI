@@ -6,8 +6,9 @@ from urllib.parse import quote_plus
 import pyautogui
 from backend.db.database import SessionLocal
 from backend.db.models import SysCommand, WebCommand, Contact
-from backend.engine.helper import extract_yt_term
 from backend.engine import windows
+from backend.engine import youtube
+from backend.engine.youtube import extract_youtube_url
 
 _SEARCH_TRIGGERS = (
     "search web", "search browser", "open google search",
@@ -31,6 +32,18 @@ def classify_command(query: str) -> str:
     if q.startswith("focus ") or q.startswith("switch to "):
         return "win_focus"
 
+    # YouTube — checked before "open" to prevent "open youtube" → open_command
+    if q == "open youtube" or q.startswith("open youtube"):
+        return "yt_open"
+    if any(k in q for k in ("search youtube", "youtube search")):
+        return "yt_search"
+    if ("summarize" in q or "summary" in q) and extract_youtube_url(q):
+        return "yt_summarize"
+    if any(k in q for k in ("video details", "get details", "youtube details")) and extract_youtube_url(q):
+        return "yt_details"
+    if "on youtube" in q:
+        return "youtube"
+
     # Original intents
     if any(t in q for t in _SEARCH_TRIGGERS):
         return "search"
@@ -38,8 +51,6 @@ def classify_command(query: str) -> str:
         return "open"
     if "close " in q:
         return "close"
-    if "on youtube" in q:
-        return "youtube"
     if any(t in q for t in _MESSAGE_TRIGGERS):
         return "message"
     if "ai status" in q or "api status" in q or "assistant status" in q:
@@ -73,8 +84,8 @@ def close_command(query: str) -> str:
     try:
         import pygetwindow as gw
         app = _clean(query, "close")
-        windows = gw.getAllTitles()
-        for title in windows:
+        titles = gw.getAllTitles()
+        for title in titles:
             if app in title.lower():
                 wins = gw.getWindowsWithTitle(title)
                 if wins:
@@ -94,15 +105,6 @@ def web_search(query: str) -> str:
     url = "https://www.google.com/search?q=" + quote_plus(q)
     webbrowser.open(url)
     return f"Searching {q}"
-
-
-def play_youtube(query: str) -> str:
-    term = extract_yt_term(query)
-    if term:
-        url = "https://www.youtube.com/results?search_query=" + quote_plus(term)
-        webbrowser.open(url)
-        return f"Playing {term} on YouTube"
-    return "Could not extract YouTube search term"
 
 
 def find_contact(query: str):
@@ -143,14 +145,24 @@ def run_command(query: str, session_id: int):
             return windows.maximize_window(query), False
         if intent == "win_focus":
             return windows.focus_window(query), False
+        if intent == "yt_open":
+            return youtube.open_youtube(), False
+        if intent == "yt_search":
+            return youtube.search_youtube(query), False
+        if intent == "yt_summarize":
+            url = extract_youtube_url(query)
+            return youtube.summarize_video(url), False
+        if intent == "yt_details":
+            url = extract_youtube_url(query)
+            return youtube.get_video_details(url), False
+        if intent == "youtube":
+            return youtube.play_on_youtube(query), False
         if intent == "open":
             return open_command(query), False
         if intent == "close":
             return close_command(query), False
         if intent == "search":
             return web_search(query), False
-        if intent == "youtube":
-            return play_youtube(query), False
         if intent == "message":
             mobile, name = find_contact(query)
             if mobile:

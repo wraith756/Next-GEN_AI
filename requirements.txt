@@ -16,3 +16,6 @@ python-multipart
 websockets
 markdown2
 beautifulsoup4
+youtube-search-python
+youtube-transcript-api
+yt-dlp
