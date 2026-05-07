@@ -27,3 +27,31 @@ def test_ai_fallback():
 
 def test_open_with_search_word_goes_to_search():
     assert classify_command("open google search") == "search"
+
+
+def test_classify_screenshot():
+    assert classify_command("take a screenshot") == "screenshot"
+
+def test_classify_screenshot_short():
+    assert classify_command("screenshot") == "screenshot"
+
+def test_classify_sysinfo_cpu():
+    assert classify_command("what is my cpu usage") == "sysinfo"
+
+def test_classify_sysinfo_ram():
+    assert classify_command("how much ram do I have") == "sysinfo"
+
+def test_classify_sysinfo_battery():
+    assert classify_command("check battery") == "sysinfo"
+
+def test_classify_win_minimize():
+    assert classify_command("minimize chrome") == "win_minimize"
+
+def test_classify_win_maximize():
+    assert classify_command("maximize notepad") == "win_maximize"
+
+def test_classify_win_focus():
+    assert classify_command("focus spotify") == "win_focus"
+
+def test_classify_switch_to():
+    assert classify_command("switch to chrome") == "win_focus"

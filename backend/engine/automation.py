@@ -7,6 +7,7 @@ import pyautogui
 from backend.db.database import SessionLocal
 from backend.db.models import SysCommand, WebCommand, Contact
 from backend.engine.helper import extract_yt_term
+from backend.engine import windows
 
 _SEARCH_TRIGGERS = (
     "search web", "search browser", "open google search",
@@ -17,6 +18,20 @@ _MESSAGE_TRIGGERS = ("send message", "send sms", "whatsapp message")
 
 def classify_command(query: str) -> str:
     q = query.lower().strip()
+
+    # Windows automation — checked before "open" to prevent misrouting
+    if "screenshot" in q or "take a screenshot" in q:
+        return "screenshot"
+    if any(k in q for k in ("cpu", "ram", "memory", "disk", "storage", "battery", "system info", "how much")):
+        return "sysinfo"
+    if q.startswith("minimize "):
+        return "win_minimize"
+    if q.startswith("maximize "):
+        return "win_maximize"
+    if q.startswith("focus ") or q.startswith("switch to "):
+        return "win_focus"
+
+    # Original intents
     if any(t in q for t in _SEARCH_TRIGGERS):
         return "search"
     if q.startswith("open "):
@@ -118,6 +133,16 @@ def send_whatsapp(mobile: str, message: str, name: str) -> str:
 def run_command(query: str, session_id: int):
     intent = classify_command(query)
     try:
+        if intent == "screenshot":
+            return windows.take_screenshot(), False
+        if intent == "sysinfo":
+            return windows.get_system_info(query), False
+        if intent == "win_minimize":
+            return windows.minimize_window(query), False
+        if intent == "win_maximize":
+            return windows.maximize_window(query), False
+        if intent == "win_focus":
+            return windows.focus_window(query), False
         if intent == "open":
             return open_command(query), False
         if intent == "close":
