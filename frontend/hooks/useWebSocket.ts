@@ -5,6 +5,8 @@ export type WSMessage = {
   text?: string
   session_id?: number
   success?: boolean
+  data?: string   // base64 image data for image messages
+  path?: string   // file path for screenshots
 }
 
 type Handler = (msg: WSMessage) => void
