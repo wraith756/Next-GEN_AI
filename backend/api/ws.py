@@ -43,15 +43,28 @@ async def _handle_command(ws: WebSocket, text: str, session_id: int):
     if needs_ai:
         response = ai_engine.ask(text, session_id)
 
-    try:
-        from backend.engine.helper import markdown_to_text
-        response = markdown_to_text(response)
-    except Exception:
-        pass
+    # Screenshot returns a dict — all other commands return a str
+    if isinstance(response, dict) and "image_b64" in response:
+        spoken_text = response["text"]
+        threading.Thread(target=voice.speak, args=(spoken_text,), daemon=True).start()
+        await ws.send_json({
+            "type": "image",
+            "data": response["image_b64"],
+            "path": response["path"],
+            "text": spoken_text,
+            "session_id": session_id,
+        })
+        _save_message(session_id, "assistant", spoken_text)
+    else:
+        try:
+            from backend.engine.helper import markdown_to_text
+            response = markdown_to_text(response)
+        except Exception:
+            pass
+        threading.Thread(target=voice.speak, args=(response,), daemon=True).start()
+        await ws.send_json({"type": "response", "text": response, "session_id": session_id})
+        _save_message(session_id, "assistant", response)
 
-    threading.Thread(target=voice.speak, args=(response,), daemon=True).start()
-    await ws.send_json({"type": "response", "text": response, "session_id": session_id})
-    _save_message(session_id, "assistant", response)
     await ws.send_json({"type": "show_hood"})
 
 
