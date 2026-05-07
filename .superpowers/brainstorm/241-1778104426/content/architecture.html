@@ -1,0 +1,103 @@
+<h2>Phase 1 — System Architecture</h2>
+<p class="subtitle">Review the component map and confirm it matches your mental model</p>
+
+<div class="mockup">
+  <div class="mockup-header">Full System — Next Gen AI Assistant</div>
+  <div class="mockup-body" style="font-family:monospace;font-size:12px;line-height:1.8;padding:16px;">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+      <!-- LEFT: FRONTEND -->
+      <div style="border:1px solid #00AAFF44;border-radius:8px;padding:14px;">
+        <div style="color:#00AAFF;font-weight:bold;margin-bottom:10px;font-size:13px;">FRONTEND — Next.js</div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;margin-bottom:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">pages/</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">index.tsx — startup / face auth</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">assistant.tsx — main JARVIS HUD</div>
+        </div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;margin-bottom:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">components/</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">JarvisHUD — animated SVG rings</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">SiriWave — voice visualizer</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">SessionTabs — top tab bar</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">ChatInput — mic + text + send</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">SettingsModal — profile, commands</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">FaceAuthOverlay — lottie + webcam</div>
+        </div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">hooks/</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">useWebSocket — WS connection</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">useVoice — mic capture + send audio</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">useSession — active session state</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: BACKEND -->
+      <div style="border:1px solid #00AAFF44;border-radius:8px;padding:14px;">
+        <div style="color:#00AAFF;font-weight:bold;margin-bottom:10px;font-size:13px;">BACKEND — FastAPI (Python)</div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;margin-bottom:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">api/</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">ws.py — WebSocket hub</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">auth.py — face auth endpoint</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">sessions.py — CRUD sessions</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">commands.py — sys/web commands</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">settings.py — profile, contacts</div>
+        </div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;margin-bottom:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">engine/ (ported)</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">voice.py — pyttsx3 TTS + Groq STT</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">ai.py — dual Groq model routing</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">automation.py — open/close/search</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">hotword.py — OpenWakeWord</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">face_auth.py — DeepFace wrapper</div>
+        </div>
+
+        <div style="background:#00AAFF11;border-radius:6px;padding:8px;">
+          <div style="color:#ccc;font-size:11px;font-weight:bold;">db/</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">database.py — SQLite + SQLAlchemy</div>
+          <div style="color:#888;font-size:10px;padding-left:12px;">models.py — all table models</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: CONNECTIONS -->
+    <div style="margin-top:16px;border:1px solid #00AAFF33;border-radius:8px;padding:12px;">
+      <div style="color:#00AAFF;font-weight:bold;margin-bottom:8px;font-size:12px;">COMMUNICATION LAYER</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:10px;">
+        <div style="background:#00330033;border:1px solid #00AA6644;border-radius:4px;padding:6px;color:#88dd88;">
+          <strong>WebSocket</strong><br/>Real-time: voice audio, AI responses, TTS text, status updates
+        </div>
+        <div style="background:#00003333;border:1px solid #0066AA44;border-radius:4px;padding:6px;color:#88aaff;">
+          <strong>REST API</strong><br/>CRUD: sessions, contacts, sys/web commands, profile settings
+        </div>
+        <div style="background:#33000033;border:1px solid #AA004444;border-radius:4px;padding:6px;color:#ffaaaa;">
+          <strong>External APIs</strong><br/>Groq LLM (llama 8b/70b) + Groq Whisper STT
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: STARTUP PROCESS -->
+    <div style="margin-top:12px;border:1px solid #00AAFF22;border-radius:8px;padding:12px;background:#00AAFF05;">
+      <div style="color:#00AAFF;font-weight:bold;margin-bottom:8px;font-size:12px;">STARTUP FLOW</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#ccc;flex-wrap:wrap;">
+        <span style="background:#00AAFF22;padding:3px 8px;border-radius:12px;border:1px solid #00AAFF44;">run.py</span>
+        <span style="color:#00AAFF">→</span>
+        <span style="background:#00AAFF22;padding:3px 8px;border-radius:12px;border:1px solid #00AAFF44;">FastAPI server</span>
+        <span style="color:#00AAFF">→</span>
+        <span style="background:#00AAFF22;padding:3px 8px;border-radius:12px;border:1px solid #00AAFF44;">Next.js UI</span>
+        <span style="color:#00AAFF">→</span>
+        <span style="background:#00AAFF22;padding:3px 8px;border-radius:12px;border:1px solid #00AAFF44;">Face Auth</span>
+        <span style="color:#00AAFF">→</span>
+        <span style="background:#00AAFF22;padding:3px 8px;border-radius:12px;border:1px solid #00AAFF44;">OpenWakeWord</span>
+        <span style="color:#00AAFF">→</span>
+        <span style="background:#00AA6622;padding:3px 8px;border-radius:12px;border:1px solid #00AA6644;color:#88dd88;">JARVIS HUD active</span>
+      </div>
+    </div>
+
+  </div>
+</div>

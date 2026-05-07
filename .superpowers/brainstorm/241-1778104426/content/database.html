@@ -1,0 +1,96 @@
+<h2>Database Schema — SQLite</h2>
+<p class="subtitle">Existing tables kept as-is. Two new tables added for chat sessions.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;">
+
+  <!-- EXISTING TABLES -->
+  <div>
+    <div class="label" style="margin-bottom:8px;">EXISTING TABLES (unchanged)</div>
+
+    <div style="border:1px solid #00AAFF33;border-radius:8px;padding:12px;margin-bottom:10px;background:#0a0a1a;">
+      <div style="color:#00AAFF;font-size:12px;font-weight:bold;margin-bottom:6px;">sys_command</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        name TEXT<br/>
+        path TEXT
+      </div>
+    </div>
+
+    <div style="border:1px solid #00AAFF33;border-radius:8px;padding:12px;margin-bottom:10px;background:#0a0a1a;">
+      <div style="color:#00AAFF;font-size:12px;font-weight:bold;margin-bottom:6px;">web_command</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        name TEXT<br/>
+        url TEXT
+      </div>
+    </div>
+
+    <div style="border:1px solid #00AAFF33;border-radius:8px;padding:12px;margin-bottom:10px;background:#0a0a1a;">
+      <div style="color:#00AAFF;font-size:12px;font-weight:bold;margin-bottom:6px;">contacts</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        name TEXT<br/>
+        mobile_no TEXT<br/>
+        email TEXT<br/>
+        address TEXT
+      </div>
+    </div>
+
+    <div style="border:1px solid #00AAFF33;border-radius:8px;padding:12px;background:#0a0a1a;">
+      <div style="color:#00AAFF;font-size:12px;font-weight:bold;margin-bottom:6px;">info</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        name TEXT<br/>
+        designation TEXT<br/>
+        mobileno TEXT<br/>
+        email TEXT<br/>
+        city TEXT
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW TABLES -->
+  <div>
+    <div class="label" style="margin-bottom:8px;color:#00AA66;">NEW TABLES (chat sessions)</div>
+
+    <div style="border:2px solid #00AA6655;border-radius:8px;padding:12px;margin-bottom:10px;background:#001a0a;">
+      <div style="color:#00AA66;font-size:12px;font-weight:bold;margin-bottom:6px;">chat_sessions</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        <span style="color:#ccc;">title TEXT</span> <span style="color:#555;">-- "Chat #1", user-renamed</span><br/>
+        created_at DATETIME<br/>
+        updated_at DATETIME
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#555;border-top:1px solid #00AA6622;padding-top:6px;">
+        One row per tab in the tab bar
+      </div>
+    </div>
+
+    <div style="border:2px solid #00AA6655;border-radius:8px;padding:12px;margin-bottom:10px;background:#001a0a;">
+      <div style="color:#00AA66;font-size:12px;font-weight:bold;margin-bottom:6px;">chat_messages</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        <span style="color:#ccc;">session_id INTEGER</span> → chat_sessions.id<br/>
+        <span style="color:#ccc;">role TEXT</span> <span style="color:#555;">-- "user" | "assistant"</span><br/>
+        content TEXT<br/>
+        created_at DATETIME
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#555;border-top:1px solid #00AA6622;padding-top:6px;">
+        Every message in every session
+      </div>
+    </div>
+
+    <div style="border:2px solid #00AA6655;border-radius:8px;padding:12px;background:#001a0a;">
+      <div style="color:#00AA66;font-size:12px;font-weight:bold;margin-bottom:6px;">session_summaries</div>
+      <div style="font-family:monospace;font-size:10px;color:#888;line-height:1.8;">
+        id INTEGER PRIMARY KEY<br/>
+        <span style="color:#ccc;">session_id INTEGER</span> → chat_sessions.id<br/>
+        summary TEXT <span style="color:#555;">-- compressed context</span><br/>
+        message_count INTEGER<br/>
+        created_at DATETIME
+      </div>
+      <div style="margin-top:8px;font-size:10px;color:#00AA66;border-top:1px solid #00AA6622;padding-top:6px;">
+        After 10 messages → Groq 8b compresses history into this summary. Next AI call prepends the summary instead of all 10 messages.
+      </div>
+    </div>
+  </div>
+</div>

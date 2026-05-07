@@ -1,0 +1,95 @@
+<h2>Chat Sessions Layout</h2>
+<p class="subtitle">How should session management look in the new Next.js frontend? (same dark blue JARVIS theme)</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="A" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;border-radius:8px;padding:12px;font-family:monospace;font-size:11px;min-height:180px;">
+      <div style="display:flex;height:160px;gap:8px;">
+        <div style="width:140px;background:#0d1b2e;border-radius:6px;padding:8px;border:1px solid #00AAFF33;">
+          <div style="color:#00AAFF;font-size:10px;margin-bottom:8px;font-weight:bold;">SESSIONS</div>
+          <div style="background:#00AAFF22;border-left:2px solid #00AAFF;padding:4px 6px;border-radius:3px;margin-bottom:4px;">
+            <div style="color:#fff;font-size:9px;">Chat #1 — Today</div>
+          </div>
+          <div style="padding:4px 6px;margin-bottom:4px;">
+            <div style="color:#888;font-size:9px;">Chat #2 — Yesterday</div>
+          </div>
+          <div style="padding:4px 6px;margin-bottom:4px;">
+            <div style="color:#888;font-size:9px;">Chat #3 — 2 days ago</div>
+          </div>
+          <div style="margin-top:8px;border-top:1px solid #00AAFF33;padding-top:6px;">
+            <div style="color:#00AAFF;font-size:9px;">+ New Session</div>
+          </div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+          <div style="width:60px;height:60px;border-radius:50%;border:2px solid #00AAFF;display:flex;align-items:center;justify-content:center;">
+            <div style="width:20px;height:20px;border-radius:50%;background:#00AAFF33;border:1px solid #00AAFF;"></div>
+          </div>
+          <div style="color:#00AAFF;font-size:9px;margin-top:8px;">JARVIS HUD</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Persistent Sidebar</h3>
+      <p>Always-visible sessions panel on the left, like ChatGPT. JARVIS HUD on the right. Sessions visible at all times.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="B" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;border-radius:8px;padding:12px;font-family:monospace;font-size:11px;min-height:180px;">
+      <div style="display:flex;flex-direction:column;height:160px;justify-content:center;align-items:center;position:relative;gap:8px;">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:130px;background:#0d1b2e;border-radius:6px;padding:8px;border:1px solid #00AAFF;box-shadow:0 0 20px #00AAFF44;">
+          <div style="color:#00AAFF;font-size:10px;margin-bottom:8px;font-weight:bold;">SESSIONS ✕</div>
+          <div style="background:#00AAFF22;border-left:2px solid #00AAFF;padding:4px 6px;border-radius:3px;margin-bottom:4px;">
+            <div style="color:#fff;font-size:9px;">Chat #1 — Today</div>
+          </div>
+          <div style="padding:4px 6px;margin-bottom:4px;">
+            <div style="color:#888;font-size:9px;">Chat #2 — Yesterday</div>
+          </div>
+          <div style="margin-top:8px;border-top:1px solid #00AAFF33;padding-top:6px;">
+            <div style="color:#00AAFF;font-size:9px;">+ New Session</div>
+          </div>
+        </div>
+        <div style="width:50px;height:50px;border-radius:50%;border:2px solid #00AAFF33;display:flex;align-items:center;justify-content:center;margin-left:60px;">
+          <div style="width:16px;height:16px;border-radius:50%;background:#00AAFF22;border:1px solid #00AAFF55;"></div>
+        </div>
+        <div style="color:#00AAFF55;font-size:9px;margin-left:60px;">slides over HUD</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Slide-over Panel (current)</h3>
+      <p>Keep the current offcanvas approach — chat icon opens a panel that slides over the JARVIS HUD. Maximizes HUD screen space.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="C" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;border-radius:8px;padding:12px;font-family:monospace;font-size:11px;min-height:180px;">
+      <div style="height:160px;display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;gap:4px;padding:4px;background:#0d1b2e;border-radius:4px;border-bottom:1px solid #00AAFF33;">
+          <div style="background:#00AAFF22;border-bottom:2px solid #00AAFF;padding:3px 8px;border-radius:3px 3px 0 0;">
+            <div style="color:#00AAFF;font-size:9px;">Chat 1</div>
+          </div>
+          <div style="padding:3px 8px;">
+            <div style="color:#555;font-size:9px;">Chat 2</div>
+          </div>
+          <div style="padding:3px 8px;">
+            <div style="color:#555;font-size:9px;">Chat 3</div>
+          </div>
+          <div style="padding:3px 8px;">
+            <div style="color:#00AAFF55;font-size:9px;">+</div>
+          </div>
+        </div>
+        <div style="flex:1;display:flex;justify-content:center;align-items:center;">
+          <div style="width:55px;height:55px;border-radius:50%;border:2px solid #00AAFF;display:flex;align-items:center;justify-content:center;">
+            <div style="width:18px;height:18px;border-radius:50%;background:#00AAFF33;border:1px solid #00AAFF;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Tab Bar at Top</h3>
+      <p>Sessions as horizontal tabs above the JARVIS HUD. Browser-like. Quick to switch but limits the number of visible sessions.</p>
+    </div>
+  </div>
+
+</div>
