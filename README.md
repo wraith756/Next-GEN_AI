@@ -1,116 +1,149 @@
-Here’s a **clean, professional README.md** for your project 👇
+# Next-Gen AI Assistant
 
----
+A sophisticated AI-powered personal assistant inspired by JARVIS, featuring voice interaction, face authentication, automation capabilities, and a modern web interface.
 
-# 🚀 Next Gen-AI
+## 🚀 Features
 
-### RAG-Based Intelligent Assistant with n8n Integration
-
----
-
-## 📌 Overview
-
-**Next Gen-AI** is a context-aware intelligent assistant that leverages **Retrieval-Augmented Generation (RAG)** and Large Language Models to deliver accurate, real-time responses.
-
-It is further enhanced with **n8n** to enable **automated, event-driven workflows** across multiple applications.
-
----
-
-## 🎯 Features
-
-- 🔍 Context-aware responses using RAG
-- ⚡ Fast and accurate answer generation
-- 🧠 Reduced hallucination with vector search
-- 🔗 Integration with external apps via n8n
-- 🤖 Automated workflows (email, documents, APIs)
-- 🌐 Simple web interface for user interaction
-
----
+- **Voice Interaction**: Wake word detection ("Next Gen"), speech-to-text (Groq Whisper), and text-to-speech (pyttsx3)
+- **Face Authentication**: Secure login using DeepFace and OpenCV
+- **AI Conversations**: Dual-model Groq integration for commands and complex queries
+- **Automation**: Windows automation, YouTube controls, web browsing, and more
+- **Real-time WebSocket Communication**: Seamless frontend-backend sync
+- **Session Management**: Persistent chat sessions with tabbed interface
+- **Modern UI**: Next.js frontend with Bootstrap styling and animated components
 
 ## 🏗️ Architecture
 
-User Query → Embedding → Vector Database → Context Retrieval → LLM → Response → n8n Automation
+- **Backend**: FastAPI with WebSocket support, SQLAlchemy database, background threads for hotword detection
+- **Frontend**: Next.js with TypeScript, React components, Bootstrap UI
+- **Database**: SQLite with SQLAlchemy ORM
+- **AI**: Groq API for LLM and speech processing
+- **Automation**: PyAutoGUI, PyGetWindow for desktop control
 
----
+## 📋 Prerequisites
 
-## 🛠️ Tech Stack
+- Python 3.10+
+- Node.js 18+
+- Git
 
-- **Python** – Backend development
-- **LangChain** – RAG pipeline
-- **OpenAI GPT API** – Response generation
-- **FAISS** – Vector storage & retrieval
-- **n8n** – Workflow automation
-- Streamlit – Frontend interface
+## 🛠️ Installation
 
----
+1. **Clone the repository**:
 
-## ⚙️ How It Works
+   ```bash
+   git clone <repository-url>
+   cd Next-GEN_AI
+   ```
 
-1. User enters a query
-2. Query is converted into embeddings
-3. Relevant data is retrieved from vector database
-4. Context is passed to the LLM
-5. LLM generates an accurate response
-6. n8n automates further actions (if required)
+2. **Set up Python environment**:
 
----
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-## 🔗 Use Cases
+3. **Set up frontend**:
 
-- 📄 Document-based Q&A system
-- 📧 Email summarization automation
-- 🧾 Knowledge base assistant
-- 🏢 Enterprise internal chatbot
-- 🔄 Workflow automation with AI
+   ```bash
+   cd frontend
+   npm install
+   npm run build
+   cd ..
+   ```
 
----
+4. **Configure environment**:
+   - Set `GROQ_API_KEY` in your environment or config
+   - Train face recognition model if needed (see face auth setup)
 
-## 📊 Results
+## 🚀 Running the Application
 
-- ✅ High accuracy with context-aware responses
-- ⚡ Average response time < 3 seconds
-- 📉 Reduced hallucination compared to traditional chatbots
-
----
-
-## 🚧 Limitations
-
-- Dependent on API performance
-- Requires proper data indexing
-- Initial setup complexity
-
----
-
-## 🔮 Future Scope
-
-- ☁️ Cloud deployment (AWS/GCP)
-- 🔐 Enhanced security & authentication
-- 📈 Scalable microservices architecture
-- 🧠 Improved memory & personalization
-
----
-
-## 📁 Installation
+Simply run:
 
 ```bash
-# Clone repository
-git clone https://github.com/your-username/next-gen-ai.git
+python run.py
+```
 
-# Navigate to project
-cd next-gen-ai
+This will:
+
+- Start the FastAPI backend on port 8000
+- Start the Next.js frontend on port 3000
+- Open your browser to the application
+
+## 📁 Project Structure
+
+```
+Next-GEN_AI/
+├── backend/                 # FastAPI backend
+│   ├── api/                # REST API endpoints
+│   ├── db/                 # Database models and setup
+│   └── engine/             # Core AI and automation logic
+├── frontend/               # Next.js frontend
+│   ├── components/         # React components
+│   ├── hooks/             # Custom React hooks
+│   ├── pages/             # Next.js pages
+│   └── styles/            # CSS styles
+├── docs/                   # Documentation and specs
+├── tests/                  # Unit tests
+├── run.py                  # Application launcher
+├── requirements.txt        # Python dependencies
+└── README.md              # This file
+```
+
+## 🔧 Configuration
+
+Key settings in `backend/engine/config.py`:
+
+- GROQ_API_KEY: Your Groq API key
+- Model configurations for different AI tasks
+- Assistant name and wake word settings
+
+## 🧪 Testing
+
+Run tests with:
+
+```bash
+python -m pytest tests/
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by JARVIS from Iron Man
+- Built with Groq, FastAPI, Next.js, and various open-source libraries
 
 # Create virtual environment
+
 python -m venv venv
 
 # Activate environment
+
 # Windows
+
 venv\Scripts\activate
 
 # Install dependencies
+
 pip install -r requirements.txt
 
 # Run application
+
 streamlit run app.py
+
 ```
 
 ---
@@ -148,3 +181,4 @@ If you want, I can also:
 - 🔥 Add **badges (GitHub style)**
 - 💎 Make it **ATS-friendly for resume**
 - ⚡ Create a **portfolio description version**
+```
